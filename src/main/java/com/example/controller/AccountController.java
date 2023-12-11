@@ -61,6 +61,23 @@ public class AccountController {
 		
 		return responseAmount;
 	}
+	
+	@PostMapping("bankTrading/withdraw/{account_id}")
+	public ResponseAmount withdraw(@PathVariable("account_id")Integer accountId, @RequestBody RequestAmount requestAmount) {
+		
+		// 取得した口座IDから対象口座を取得する
+		Account account = this.accountService.findById(accountId);
+		
+		ResponseAmount responseAmount = new ResponseAmount();
+		
+		if (account.getAmount() - requestAmount.getAmount() >= 0) {
+			Integer addAmount = account.getAmount() - requestAmount.getAmount();
+			
+			responseAmount.setAmount(addAmount);
+		}
+		
+		return responseAmount;
+	}
 }
 
 
